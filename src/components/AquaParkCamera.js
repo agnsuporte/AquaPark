@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import type {Node} from 'react';
-import {Modal} from 'react-native';
+import {Modal, Text} from 'react-native';
 import {RNCamera} from 'react-native-camera';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -13,23 +13,32 @@ import {
   TakePictureButtonContainer,
   TakePictureButtonLabel,
 } from './styles/AquaParkCamera';
+import PendingView from './AquaParkPendingView';
 
 const PhotoCamera: () => Node = props => {
   const {setImage, cameraModalOpened, setCameraModalOpened} = props;
   const [camera, setCamera] = useState(null);
   const [type, setType] = useState(RNCamera.Constants.Type.back);
+  const [pausePreview, setPausePreview] = useState(false);
 
-  const handleCameraModalClose = () => setCameraModalOpened(false);
+  const handleCameraModalClose = () => {
+    setImage(null);
+    setPausePreview(false);
+    setCameraModalOpened(false);
+  };
 
-  const flipCamera = () => {
-    setType(
+  const flipCamera = async () => {
+    setImage(null);
+    await camera.resumePreview();
+    await setType(
       type === RNCamera.Constants.Type.back
         ? RNCamera.Constants.Type.front
         : RNCamera.Constants.Type.back,
     );
+    await setPausePreview(false);
   };
 
-  const handleTakePicture = async () => {
+  const takePicture = async () => {
     const options = {
       quality: 0.6,
       base64: true,
@@ -38,9 +47,25 @@ const PhotoCamera: () => Node = props => {
     };
 
     const data = await camera.takePictureAsync(options);
+    const source = data.uri;
 
-    setImage(data.uri);
-    handleCameraModalClose();
+    if (source) {
+      setImage(source);
+      await camera.pausePreview();
+      setPausePreview(true);
+    }
+  };
+
+  const handleTakePicture = async () => {
+    if (pausePreview === false) {
+      takePicture();
+    }
+  };
+
+  const resumePicture = async () => {
+    await camera.resumePreview();
+    setPausePreview(false);
+    setCameraModalOpened(false);
   };
 
   return (
@@ -70,11 +95,17 @@ const PhotoCamera: () => Node = props => {
               message: 'É necessário que autorize, você autoriza?',
               buttonPositive: 'Sim',
               buttonNegative: 'Não',
+            }}>
+            {({status}) => {
+              if (status !== 'READY') return <PendingView />;
+              return null;
             }}
-          />
-          <TakePictureButtonContainer onPress={handleTakePicture}>
-            <TakePictureButtonLabel />
-          </TakePictureButtonContainer>
+          </RNCamera>
+          {pausePreview === false ? (
+            <TakePictureButtonContainer onPress={handleTakePicture}>
+              <TakePictureButtonLabel />
+            </TakePictureButtonContainer>
+          ) : null}
         </ModalContainer>
         <ModalButtons>
           <CameraButtonContainer onPress={flipCamera}>
@@ -83,9 +114,17 @@ const PhotoCamera: () => Node = props => {
             </CancelButtonText>
           </CameraButtonContainer>
 
+          {pausePreview ? (
+            <CameraButtonContainer onPress={() => resumePicture()}>
+              <ContinueButtonText>
+                <Icon name="check" size={35} color="#2D9CDB" />
+              </ContinueButtonText>
+            </CameraButtonContainer>
+          ) : null}
+
           <CameraButtonContainer onPress={handleCameraModalClose}>
             <ContinueButtonText>
-              <Icon name="times" size={35} color="orange" />
+              <Icon name="times" size={35} color="#EB5757" />
             </ContinueButtonText>
           </CameraButtonContainer>
         </ModalButtons>

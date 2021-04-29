@@ -1,11 +1,11 @@
 import React from 'react';
 import type {Node} from 'react';
-import {TouchableOpacity, ScrollView} from 'react-native';
+
+import {ToastAndroid, TouchableOpacity} from 'react-native';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-import AquaParkCamera from '../../../../components/AquaParkCamera';
 
 const Title = styled.Text`
   font-size: 25px;
@@ -24,27 +24,77 @@ const Actions = styled.View`
   margin-bottom: 15px;
 `;
 
+const Scroll = styled.ScrollView`
+  width: 100%;
+`;
+
 const ImageItemSelect = styled.Image`
   height: 335px;
   width: 100%;
-  margin-left: 5px;
   background-color: ${props => (props.avatar ? '#f2f2f2' : '#BDBDBD')};
 `;
 
 const StepTwo: () => Node = props => {
-  const {
-    prevStep,
-    nextStep,
-    avatar,
-    setAvatar,
-    cameraModalOpened,
-    setCameraModalOpened,
-    handleOpenCamera,
-  } = props;
+  const {prevStep, nextStep, avatar, setAvatar} = props;
+
+  const options = {
+    mediaType: 'photo',
+    quality: 0.5,
+    cameraType: 'back',
+  };
+
+  const pickImageCallBack = response => {
+    let resp = false;
+    if (response.didCancel) {
+      ToastAndroid.show('Nenhuma foto selecionada', ToastAndroid.SHORT);
+    } else if (response.errorCode) {
+      const erro = response.errorCode;
+      switch (erro) {
+        case 'camera_unavailable':
+          ToastAndroid.show(
+            'Câmera não disponível no dispositivo',
+            ToastAndroid.SHORT,
+          );
+          break;
+        case 'permission':
+          ToastAndroid.show('Permissão negada', ToastAndroid.SHORT);
+          break;
+        default:
+          ToastAndroid.show(
+            'Ocorreu um erro ao selecionar a imagem',
+            ToastAndroid.SHORT,
+          );
+          break;
+      }
+    } else {
+      resp = true;
+    }
+    return resp;
+  };
+
+  const pickImageGallery = () => {
+    launchImageLibrary(options, response => {
+      const resp = pickImageCallBack(response);
+      setAvatar(null);
+      if (resp) {
+        setAvatar(response.uri);
+      }
+    });
+  };
+
+  const pickImageCamera = () => {
+    launchCamera(options, response => {
+      const resp = pickImageCallBack(response);
+      setAvatar(null);
+      if (resp) {
+        setAvatar(response.uri);
+      }
+    });
+  };
 
   return (
     <Inner>
-      <ScrollView style={{height: 350}}>
+      <Scroll>
         <Title style={{marginBottom: 20}}>FOTO</Title>
 
         <ImageItemSelect
@@ -53,20 +103,17 @@ const StepTwo: () => Node = props => {
           avatar={!!avatar}
         />
 
-        <AquaParkCamera
-          image={avatar}
-          setImage={setAvatar}
-          cameraModalOpened={cameraModalOpened}
-          setCameraModalOpened={setCameraModalOpened}
-        />
-
         <Inner>
           <Actions>
             <TouchableOpacity onPress={prevStep}>
               <Icon name="arrow-circle-left" size={45} color="#828282" />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={handleOpenCamera}>
+            <TouchableOpacity onPress={pickImageGallery}>
+              <Icon name="image" size={45} color="orange" />
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={pickImageCamera}>
               <Icon name="camera" size={45} color="orange" />
             </TouchableOpacity>
 
@@ -75,7 +122,7 @@ const StepTwo: () => Node = props => {
             </TouchableOpacity>
           </Actions>
         </Inner>
-      </ScrollView>
+      </Scroll>
     </Inner>
   );
 };

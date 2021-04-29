@@ -4,11 +4,11 @@ import type {Node} from 'react';
 import {
   TouchableWithoutFeedback,
   Keyboard,
-  PermissionsAndroid,
-  Platform,
+  // PermissionsAndroid,
+  // Platform,
 } from 'react-native';
 
-import CameraRoll from '@react-native-community/cameraroll';
+// import CameraRoll from '@react-native-community/cameraroll';
 
 import StepOne from './steps/Step1';
 import StepTwo from './steps/Step2';
@@ -37,7 +37,6 @@ const AquaParkOwner: () => Node = () => {
   });
 
   const [avatar, setAvatar] = useState(null);
-  const [cameraModalOpened, setCameraModalOpened] = useState(false);
 
   const DATA = [
     {id: 1, title: 'Proprietário: ', data: owner.name},
@@ -60,32 +59,27 @@ const AquaParkOwner: () => Node = () => {
     setStep(count - 1);
   };
 
-  const handleOpenCamera = () => {
-    setAvatar(null);
-    setCameraModalOpened(true);
-  };
+  // const hasAndroidPermission = async () => {
+  //   const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
+  //   const hasPermission = await PermissionsAndroid.check(permission);
 
-  const hasAndroidPermission = async () => {
-    const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
-    const hasPermission = await PermissionsAndroid.check(permission);
+  //   if (hasPermission) {
+  //     return true;
+  //   }
 
-    if (hasPermission) {
-      return true;
-    }
-
-    const status = await PermissionsAndroid.request(permission);
-    return status === 'granted';
-  };
+  //   const status = await PermissionsAndroid.request(permission);
+  //   return status === 'granted';
+  // };
 
   const saveDataOwner = async () => {
-    if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
-      return;
-    }
+    // if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
+    //   return;
+    // }
 
-    if (avatar) {
-      await CameraRoll.save(avatar);
-      await setAvatar(null);
-    }
+    // if (avatar) {
+    //   await CameraRoll.save(avatar);
+    //   await setAvatar(null);
+    // }
 
     setOwner({
       name: '',
@@ -122,9 +116,6 @@ const AquaParkOwner: () => Node = () => {
             nextStep={nextStep}
             avatar={avatar}
             setAvatar={setAvatar}
-            cameraModalOpened={cameraModalOpened}
-            setCameraModalOpened={setCameraModalOpened}
-            handleOpenCamera={handleOpenCamera}
           />
         </Container>
       );

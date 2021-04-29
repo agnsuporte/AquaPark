@@ -129,7 +129,7 @@ const ContinueButtonText = styled.Text`
   font-weight: bold;
 `;
 
-const TakePictureButtonContainer = styled.TouchableHighlight`
+const TakePictureButtonContainer = styled.TouchableOpacity`
   position: absolute;
   align-self: center;
   bottom: 20px;
