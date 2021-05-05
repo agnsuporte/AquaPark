@@ -1,5 +1,4 @@
 import React from 'react';
-import type {Node} from 'react';
 
 import {ToastAndroid, TouchableOpacity} from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -18,15 +17,20 @@ const Inner = styled.View`
   padding: 20px;
 `;
 
+const Body = styled.View``;
+
+const Footer = styled.View``;
+
+const ContainerActions = styled.View`
+  padding-top: 20px;
+`;
 const Actions = styled.View`
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 15px;
 `;
 
-const Scroll = styled.ScrollView`
-  width: 100%;
-`;
+const Scroll = styled.ScrollView``;
 
 const ImageItemSelect = styled.Image`
   height: 335px;
@@ -34,13 +38,13 @@ const ImageItemSelect = styled.Image`
   background-color: ${props => (props.avatar ? '#f2f2f2' : '#BDBDBD')};
 `;
 
-const StepTwo: () => Node = props => {
+const StepTwo = props => {
   const {prevStep, nextStep, avatar, setAvatar} = props;
 
   const options = {
-    mediaType: 'photo',
     quality: 0.5,
     cameraType: 'back',
+    mediaType: 'photo',
   };
 
   const pickImageCallBack = response => {
@@ -73,9 +77,9 @@ const StepTwo: () => Node = props => {
   };
 
   const pickImageGallery = () => {
-    launchImageLibrary(options, response => {
-      const resp = pickImageCallBack(response);
+    launchImageLibrary(options, async response => {
       setAvatar(null);
+      const resp = await pickImageCallBack(response);
       if (resp) {
         setAvatar(response.uri);
       }
@@ -83,9 +87,9 @@ const StepTwo: () => Node = props => {
   };
 
   const pickImageCamera = () => {
-    launchCamera(options, response => {
-      const resp = pickImageCallBack(response);
+    launchCamera(options, async response => {
       setAvatar(null);
+      const resp = await pickImageCallBack(response);
       if (resp) {
         setAvatar(response.uri);
       }
@@ -93,37 +97,41 @@ const StepTwo: () => Node = props => {
   };
 
   return (
-    <Inner>
-      <Scroll>
+    <Scroll>
+      <Inner>
         <Title style={{marginBottom: 20}}>FOTO</Title>
 
-        <ImageItemSelect
-          source={{uri: avatar}}
-          resizeMode="contain"
-          avatar={!!avatar}
-        />
+        <Body>
+          <ImageItemSelect
+            source={{uri: avatar}}
+            resizeMode="contain"
+            avatar={!!avatar}
+          />
+        </Body>
 
-        <Inner>
-          <Actions>
-            <TouchableOpacity onPress={prevStep}>
-              <Icon name="arrow-circle-left" size={45} color="#828282" />
-            </TouchableOpacity>
+        <Footer>
+          <ContainerActions>
+            <Actions>
+              <TouchableOpacity onPress={prevStep}>
+                <Icon name="arrow-circle-left" size={45} color="#828282" />
+              </TouchableOpacity>
 
-            <TouchableOpacity onPress={pickImageGallery}>
-              <Icon name="image" size={45} color="orange" />
-            </TouchableOpacity>
+              <TouchableOpacity onPress={pickImageGallery}>
+                <Icon name="image" size={45} color="orange" />
+              </TouchableOpacity>
 
-            <TouchableOpacity onPress={pickImageCamera}>
-              <Icon name="camera" size={45} color="orange" />
-            </TouchableOpacity>
+              <TouchableOpacity onPress={pickImageCamera}>
+                <Icon name="camera" size={45} color="orange" />
+              </TouchableOpacity>
 
-            <TouchableOpacity onPress={nextStep}>
-              <Icon name="arrow-circle-right" size={45} color="#2D9CDB" />
-            </TouchableOpacity>
-          </Actions>
-        </Inner>
-      </Scroll>
-    </Inner>
+              <TouchableOpacity onPress={nextStep}>
+                <Icon name="arrow-circle-right" size={45} color="#2D9CDB" />
+              </TouchableOpacity>
+            </Actions>
+          </ContainerActions>
+        </Footer>
+      </Inner>
+    </Scroll>
   );
 };
 

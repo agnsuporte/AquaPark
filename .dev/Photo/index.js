@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import type {Node} from 'react';
 import {
   Modal,
   TouchableOpacity,
@@ -27,7 +26,7 @@ import {
   ImageItemSelect,
 } from './styles';
 
-const PhotoCamera: () => Node = () => {
+const PhotoCamera = () => {
   const [images, setImages] = useState([]);
   const [camera, setCamera] = useState(null);
   const [imageSelected, setImageSelected] = useState(null);

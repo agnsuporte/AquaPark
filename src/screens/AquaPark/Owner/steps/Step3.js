@@ -1,9 +1,21 @@
 import React from 'react';
-import type {Node} from 'react';
 import {Text, TouchableOpacity, ScrollView} from 'react-native';
 
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+const TitleArea = styled.View`
+  padding: 10px;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+`;
+
+const Salvar = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+  align-self: center;
+`;
 
 const Title = styled.Text`
   font-size: 25px;
@@ -25,19 +37,19 @@ const ContainerItem = styled.View`
 `;
 
 const Actions = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
   margin-bottom: 15px;
 `;
 
 const ImageItemSelect = styled.Image`
   height: 80px;
-  width: 55px;
+  width: 80px;
+  border-radius: 50px;
   margin-bottom: 20px;
   background-color: ${props => (props.avatar ? '#f2f2f2' : '#BDBDBD')};
 `;
 
-const StepThree: () => Node = props => {
+const StepThree = props => {
   const {prevStep, saveDataOwner, avatar, DATA} = props;
 
   const confirm = DATA || [];
@@ -45,13 +57,17 @@ const StepThree: () => Node = props => {
   return (
     <ScrollView>
       <Inner>
-        <Title>CONFIRMAR </Title>
 
-        <ImageItemSelect
-          source={{uri: avatar}}
-          resizeMode="contain"
-          avatar={!!avatar}
-        />
+        <TitleArea>
+
+          <Title>CONFIRMAR </Title>
+
+          <ImageItemSelect
+            source={{uri: avatar}}
+            avatar={!!avatar}
+          />
+
+        </TitleArea>
 
         {confirm.map(item => (
           <ContainerItem key={item.id}>
@@ -60,17 +76,21 @@ const StepThree: () => Node = props => {
           </ContainerItem>
         ))}
 
-        <Inner>
           <Actions>
             <TouchableOpacity onPress={prevStep}>
               <Icon name="arrow-circle-left" size={45} color="#828282" />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={saveDataOwner}>
-              <Icon name="save" size={45} color="#2D9CDB" />
-            </TouchableOpacity>
+            <Salvar onPress={saveDataOwner}>
+              <Icon name="save" size={35} color="#2D9CDB" />
+              <Text 
+                style={{
+                  paddingLeft: 15,
+                  fontSize: 20,
+                }}
+              >Salvar</Text>
+            </Salvar>
           </Actions>
-        </Inner>
       </Inner>
     </ScrollView>
   );

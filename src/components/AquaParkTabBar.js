@@ -11,7 +11,7 @@ import LogoutIcon from '../assets/icon/logout_white_24dp2x.png';
 import {signOut} from '../auth';
 
 const TabArea = styled.View`
-  height: 60px;
+  height: 50px;
   background-color: #2d9cdb;
   flex-direction: row;
 `;
@@ -38,12 +38,14 @@ const ImageIcon = styled.Image`
   height: 35px;
 `;
 
-const CustomTabBar = ({state, navigation}) => {
+const CustomTabBar = props => {
+  const {state, navigation} = props;
   const goTo = screenName => {
     navigation.navigate(screenName);
   };
 
   const handleBackButton = () => {
+
     Alert.alert(
       'Aqua Park',
       'Deseja sair?',

@@ -1,9 +1,8 @@
 import React from 'react';
-import type {Node} from 'react';
 
 import {Container, Texto} from './styles';
 
-const AquaParkVisits: () => Node = () => {
+const AquaParkVisits = () => {
   return (
     <Container>
       <Texto>Visits Screen</Texto>

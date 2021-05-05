@@ -1,14 +1,6 @@
 import React, {useState} from 'react';
-import type {Node} from 'react';
 
-import {
-  TouchableWithoutFeedback,
-  Keyboard,
-  // PermissionsAndroid,
-  // Platform,
-} from 'react-native';
-
-// import CameraRoll from '@react-native-community/cameraroll';
+import {TouchableWithoutFeedback, Keyboard} from 'react-native';
 
 import StepOne from './steps/Step1';
 import StepTwo from './steps/Step2';
@@ -23,18 +15,20 @@ import {
   Inner,
 } from './styles';
 
-const AquaParkOwner: () => Node = () => {
+const INIT_OWNER = {
+  name: '',
+  email: '',
+  phone: '',
+  address: '',
+  city: '',
+  region: '',
+}
+
+const AquaParkOwner = () => {
   const [step, setStep] = useState(1);
 
   // PROPRIETÁRIO
-  const [owner, setOwner] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    region: '',
-  });
+  const [owner, setOwner] = useState(INIT_OWNER);
 
   const [avatar, setAvatar] = useState(null);
 
@@ -59,37 +53,9 @@ const AquaParkOwner: () => Node = () => {
     setStep(count - 1);
   };
 
-  // const hasAndroidPermission = async () => {
-  //   const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
-  //   const hasPermission = await PermissionsAndroid.check(permission);
-
-  //   if (hasPermission) {
-  //     return true;
-  //   }
-
-  //   const status = await PermissionsAndroid.request(permission);
-  //   return status === 'granted';
-  // };
-
   const saveDataOwner = async () => {
-    // if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
-    //   return;
-    // }
-
-    // if (avatar) {
-    //   await CameraRoll.save(avatar);
-    //   await setAvatar(null);
-    // }
-
-    setOwner({
-      name: '',
-      email: '',
-      phone: '',
-      address: '',
-      city: '',
-      region: '',
-    });
-
+    setOwner(INIT_OWNER);
+    setAvatar(null);
     setStep(4);
   };
 

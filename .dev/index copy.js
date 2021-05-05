@@ -6,11 +6,10 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
-  Text,
 } from 'react-native';
 
 import AquaParkInput from '../../../components/AquaParkInput';
-import {Title, Container, Actions, InputMultLine, Inner} from './styles';
+import {Title, Container, Actions, Inner} from './styles';
 
 const AquaPark: () => Node = () => {
   const [step, setStep] = useState(1);

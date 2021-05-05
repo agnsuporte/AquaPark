@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import type {Node} from 'react';
 import {
   Alert,
   Platform,
@@ -26,22 +25,20 @@ import {
   ErrorText,
 } from './styles';
 
-const SignUp: () => Node = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [phone, setPhone] = useState('');
+const INIT_SIGNUP = {name: '', email:'', password:'', passwordConfirm:'', phone:''}
+
+const SignUp = props => {
+  const [signup, setSignup] = useState(INIT_SIGNUP);
   const [erro, setErro] = useState({err: false, msg: ''});
   const [load, setLoad] = useState(false);
   const navigation = useNavigation();
 
   const getData = () => {
     const data = {
-      userName: name.trim(),
-      userEmail: email.trim().toLowerCase(),
-      userPassword: password.trim(),
-      userPhone: phone.trim(),
+      userName: signup.name.trim(),
+      userEmail: signup.email.trim().toLowerCase(),
+      userPassword: signup.password.trim(),
+      userPhone: signup.phone.trim(),
     };
     return data;
   };
@@ -50,16 +47,16 @@ const SignUp: () => Node = () => {
     setErro({err: false, msg: ''});
 
     if (
-      name.trim() === '' ||
-      email.trim() === '' ||
-      password.trim() === '' ||
-      passwordConfirm.trim() === ''
+      signup.name.trim() === '' ||
+      signup.email.trim() === '' ||
+      signup.password.trim() === '' ||
+      signup.passwordConfirm.trim() === ''
     ) {
       setErro({err: true, msg: 'Todos os campos são obrigatórios.'});
       return false;
     }
 
-    if (password !== passwordConfirm) {
+    if (signup.password !== signup.passwordConfirm) {
       setErro({
         err: true,
         msg: 'As senhas devem ser iguais.',
@@ -67,7 +64,7 @@ const SignUp: () => Node = () => {
       return false;
     }
 
-    if (isEmailValid(email) === false) {
+    if (isEmailValid(signup.email) === false) {
       setErro({err: true, msg: 'Informe um E-mail válido.'});
       return false;
     }
@@ -93,10 +90,10 @@ const SignUp: () => Node = () => {
             });
           }
         })
-        .catch(err => {
+        .catch(e => {
           setLoad(false);
           setErro({err: true, msg: 'Falha ao enviar.'});
-          Alert.alert(err);
+          Alert.alert(JSON.stringify(e));
         });
     }
   };
@@ -118,31 +115,31 @@ const SignUp: () => Node = () => {
             <Title>Crie sua conta aqui</Title>
             {erro.err && <ErrorText>{erro.msg}</ErrorText>}
             <Input
-              onChangeText={setName}
-              value={name}
+              value={signup.name}
+              onChangeText={txt => setSignup({...signup, name: txt})}
               placeholder="Informe seu nome"
             />
             <Input
-              value={email}
-              onChangeText={setEmail}
+              value={signup.email}
+              onChangeText={txt => setSignup({...signup, email: txt})}
               placeholder="Informe seu e-mail"
               keyboardType="email-address"
             />
             <Input
-              onChangeText={setPhone}
-              value={phone}
+              value={signup.phone}
+              onChangeText={txt => setSignup({...signup, phone: txt})}
               placeholder="Informe seu Telefone"
             />
             <Input
+              value={signup.password}
+              onChangeText={txt => setSignup({...signup, password: txt})}
               placeholder="Informe sua palavra passe"
-              value={password}
-              onChangeText={setPassword}
               secureTextEntry
             />
             <Input
+              value={signup.passwordConfirm}
+              onChangeText={txt => setSignup({...signup, passwordConfirm: txt})}
               placeholder="Repita sua palavra passe"
-              value={passwordConfirm}
-              onChangeText={setPasswordConfirm}
               secureTextEntry
             />
             <ButtonContainer>

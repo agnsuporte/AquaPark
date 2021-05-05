@@ -19,7 +19,8 @@ export const Title = styled.Text`
 export const Input = styled.TextInput`
   height: 40px;
   padding: 10px;
-  margin-vertical: 12px;
+  margin-top: 12px;
+  margin-bottom: 12px;
   border-width: 1px;
   border-radius: 7px;
   border-color: #2d9cdb;
@@ -34,7 +35,7 @@ export const ButtonContainer = styled.View`
 export const Loading = styled.View`
   flex: 1;
   align-items: center;
-  justify-ontent: center;
+  justify-content: center;
   background-color: #2d9cdb;
 `;
 

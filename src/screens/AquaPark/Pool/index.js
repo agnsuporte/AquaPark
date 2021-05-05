@@ -1,12 +1,13 @@
 import React from 'react';
-import type {Node} from 'react';
+
 
 import {Container, Texto} from './styles';
 
-const AquaParkFavorites: () => Node = () => {
+const AquaParkFavorites = props => {
   return (
     <Container>
-      <Texto>Favorites Screen</Texto>
+      <Texto>Pool Screen</Texto>
+      <Texto>{JSON.stringify(props)}</Texto>
     </Container>
   );
 };

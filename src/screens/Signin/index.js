@@ -1,6 +1,4 @@
 import React, {useState} from 'react';
-import type {Node} from 'react';
-import {connect} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {
   Text,
@@ -28,10 +26,9 @@ import {
 } from './styles';
 
 import api from '../../api';
-import {setToken, isEmailValid} from '../../auth';
-import {userSetInformationAction} from '../../actions/UserActions';
+import {setToken, setStorageProfile, isEmailValid} from '../../auth';
 
-const SignIn: () => Node = props => {
+const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [erro, setErro] = useState({err: false, msg: ''});
@@ -64,7 +61,7 @@ const SignIn: () => Node = props => {
             default:
               setErro({err: false, msg: ''});
               setToken(resp.data.token);
-              props.userSetInformationAction(resp.data);
+              setStorageProfile(resp.data);
               navigation.reset({
                 routes: [{name: 'MainTab'}],
               });
@@ -134,7 +131,14 @@ const SignIn: () => Node = props => {
 
             <Button
               style={{backgroundColor: '#fff'}}
-              onPress={() => navigation.navigate('SignUp')}>
+              onPress={() => navigation.navigate('SignUp',  {
+                user: {
+                  id: 'jane',
+                  firstName: 'Jane',
+                  lastName: 'Done',
+                  age: 25,
+                },
+              })}>
               <Text style={{color: '#000', textAlign: 'center'}}>
                 Criar uma conta
               </Text>
@@ -146,23 +150,4 @@ const SignIn: () => Node = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    id: state.user.id,
-    name: state.user.name,
-    email: state.user.email,
-    phone: state.user.phone,
-  };
-};
-
-// const mapDispathToProps = () => {
-//   return {
-//     userSetInformationAction,
-//   };
-// };
-
-const SignInConnect = connect(mapStateToProps, {userSetInformationAction})(
-  SignIn,
-);
-
-export default SignInConnect;
+export default SignIn;

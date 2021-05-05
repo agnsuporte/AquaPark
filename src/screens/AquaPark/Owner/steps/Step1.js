@@ -1,11 +1,30 @@
 import React from 'react';
-import type {Node} from 'react';
-import {ScrollView, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import AquaParkInput from '../../../../components/AquaParkInput';
+
+const Page = styled.ScrollView``;
+
+const Inner = styled.View`
+  flex: 1;
+  padding: 20px;
+`;
+
+const Body = styled.View``;
+
+const Footer = styled.View``;
+
+const ContainerActions = styled.View`
+  padding-top: 20px;
+`;
+
+const Actions = styled.View`
+  align-items: center;
+  margin-bottom: 15px;
+`;
 
 const Title = styled.Text`
   font-size: 25px;
@@ -13,26 +32,11 @@ const Title = styled.Text`
   margin-bottom: 50px;
 `;
 
-const Body = styled.View`
-  justify-content: space-between;
-`;
-
-const Inner = styled.View`
-  padding: 20px;
-`;
-
-const Actions = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 30px;
-  margin-bottom: 15px;
-`;
-
-const StepOne: () => Node = props => {
+const StepOne = props => {
   const {owner, setOwner, prevStep, nextStep} = props;
 
   return (
-    <ScrollView>
+    <Page>
       <Inner>
         <Title>PROPRIETÁRIO </Title>
         <Body>
@@ -72,20 +76,18 @@ const StepOne: () => Node = props => {
             onChangeText={txt => setOwner({...owner, region: txt})}
             placeholder="Estado do Proprietário"
           />
-          <Inner>
+        </Body>
+        <Footer>
+          <ContainerActions>
             <Actions>
-              <TouchableOpacity onPress={prevStep}>
-                <Icon name="arrow-circle-left" size={45} color="#828282" />
-              </TouchableOpacity>
-
               <TouchableOpacity onPress={nextStep}>
                 <Icon name="arrow-circle-right" size={45} color="#2D9CDB" />
               </TouchableOpacity>
             </Actions>
-          </Inner>
-        </Body>
+          </ContainerActions>
+        </Footer>
       </Inner>
-    </ScrollView>
+    </Page>
   );
 };
 

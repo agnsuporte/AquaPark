@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import type {Node} from 'react';
 import {useNavigation} from '@react-navigation/native';
 
 import {
@@ -13,7 +12,7 @@ import api from '../../api';
 import {signOut, getToken} from '../../auth';
 import AquaParkLogo from '../../assets/img/logo/LogoBlue.png';
 
-const Preload: () => Node = () => {
+const Preload = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
