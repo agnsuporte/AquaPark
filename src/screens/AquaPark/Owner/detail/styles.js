@@ -6,9 +6,13 @@ export const Container = styled.SafeAreaView`
   background-color: #f2f2f2;
 `;
 
+export const Scroll = styled.ScrollView`
+  flex: 1;
+  width: 99%;
+`;
+
 export const Inner = styled.View`
-  width: 96%;
-  padding: 10px;
+  padding: 5px 10px;
 `;
 
 export const SectionHeard = styled.View`
@@ -23,7 +27,7 @@ export const SectionHeard = styled.View`
 export const Button = styled.TouchableOpacity`
   align-items: center;
   background-color: #DDDDDD;
-  padding: 10px;
+  padding: 6px 10px;
   flex-direction: row;
   justify-content: space-between;
 `;
@@ -39,7 +43,7 @@ export const Avatar = styled.Image`
   border-radius: 7px;
 `;
 
-export const Address = styled.Text`
+export const Description = styled.Text`
   font-size: 14px;
 `;
 
@@ -49,6 +53,6 @@ export const Name = styled.Text`
 `;
 
 export const Texto = styled.Text`
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 700;
 `;

@@ -28,12 +28,16 @@ export const LocationFinder = styled.TouchableOpacity`
   margin-left: 10px;
   justify-content: center;
   border-radius: 4px;
-  padding: 0 14px;
+  padding: 0 8px;
 `;
 
-export const LocationFinderIcon = styled.Image`
-  width: 25px;
-  height: 25px;
+export const LocationClose = styled.TouchableOpacity`
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 11px;
+  margin-right: 70px;
+  padding: 4px 8px;
 `;
 
 export const ListArea = styled.FlatList`

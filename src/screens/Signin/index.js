@@ -3,6 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import {
   Text,
   Alert,
+  ToastAndroid,
   TouchableWithoutFeedback,
   Keyboard,
   Platform,
@@ -14,19 +15,19 @@ import {
   Container,
   BodyArea,
   Title,
-  SocialNetworks,
-  SocialButton,
-  SocialText,
+  BodyHeard,
   ErroText,
   Input,
   Forguet,
   Button,
   LoadArea,
   LoadingText,
+  TinyLogo,
 } from './styles';
 
 import api from '../../api';
 import {setToken, setStorageProfile, isEmailValid} from '../../auth';
+import AquaParkLogo from '../../assets/img/logo/LogoBlue.png';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -35,10 +36,6 @@ const SignIn = () => {
   const [load, setLoad] = useState(false);
 
   const navigation = useNavigation();
-
-  const onNot = () => {
-    Alert.alert('Aqua Park', 'Indisponível no momento.');
-  };
 
   const handleSend = async () => {
     setErro({err: false, msg: ''});
@@ -57,6 +54,7 @@ const SignIn = () => {
           switch (resposta) {
             case false:
               setErro({err: true, msg: 'E-mail ou Senha Inválido.'});
+              
               break;
             default:
               setErro({err: false, msg: ''});
@@ -93,17 +91,13 @@ const SignIn = () => {
     <Container behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <BodyArea>
-            <Title>Faça Login para continuar</Title>
 
-            <SocialNetworks>
-              <SocialButton onPress={onNot}>
-                <SocialText>Facebook</SocialText>
-              </SocialButton>
-              <SocialButton onPress={onNot}>
-                <SocialText>Google</SocialText>
-              </SocialButton>
-            </SocialNetworks>
+          <BodyArea>
+
+            <BodyHeard>
+              <TinyLogo source={AquaParkLogo} />
+              <Title>Faça Login para continuar</Title>
+            </BodyHeard>
 
             {erro.err && <ErroText>{erro.msg}</ErroText>}
 
@@ -131,14 +125,7 @@ const SignIn = () => {
 
             <Button
               style={{backgroundColor: '#fff'}}
-              onPress={() => navigation.navigate('SignUp',  {
-                user: {
-                  id: 'jane',
-                  firstName: 'Jane',
-                  lastName: 'Done',
-                  age: 25,
-                },
-              })}>
+              onPress={() => navigation.navigate('SignUp')}>
               <Text style={{color: '#000', textAlign: 'center'}}>
                 Criar uma conta
               </Text>

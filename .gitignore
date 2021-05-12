@@ -36,6 +36,11 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
+
+# user
+#
+.dev/
+
 # BUCK
 buck-out/
 \.buckd/

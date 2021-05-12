@@ -3,55 +3,59 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {
   Container,
+  Scroll,
   Inner,
   Button,
   SectionHeard,
   Avatar,
   InfoHeard,
   Name,
-  Address,
+  Description,
   Texto
 } from './styles';
 
 const AquaParkOwnerDetail = props => {
-  const { item } = props.route.params;
+  const { owner } = props.route.params;
   return (
     <Container>
 
+      <Scroll>
         <SectionHeard>
-          <Avatar source={{uri: item.avatar}} />
+          <Avatar source={{uri: owner.avatar}} />
           <InfoHeard>
-            <Name>{item.name}</Name>
-            <Address>{item.phone}</Address>
-            <Address>{item.email}</Address>
+            <Name>{owner.name}</Name>
+            <Description>{owner.phone}</Description>
+            <Description>{owner.email}</Description>
           </InfoHeard>
         </SectionHeard>
 
         <Inner>
-          <Address>{item.address}</Address>
-          <Address>{item.city}/{item.region}</Address>
+          <Description>{owner.address}</Description>
+          <Description>{owner.city}/{owner.region}</Description>
         </Inner>
 
+
         <Inner>
-          <Button onPress={() => props.navigation.navigate('Pool', {teste:'Tela da Piscina'})}>
-            <Texto>Piscina</Texto>
-            <Icon name="chevron-right" size={25} color="#2D9CDB" />
+          <Button onPress={() => props.navigation.navigate('Pool', {owner_id: owner.id})}>
+            <Texto>Classificação e tipos de piscina</Texto>
+            <Icon name="chevron-right" size={20} color="#2D9CDB" />
           </Button>
         </Inner>
 
         <Inner>
           <Button>
-            <Texto>Visita</Texto>
-            <Icon name="chevron-right" size={25} color="#2D9CDB" />
+            <Texto>Visita (parâmetros físico-químicos)</Texto>
+            <Icon name="chevron-right" size={20} color="#2D9CDB" />
           </Button>
         </Inner>
 
         <Inner>
           <Button>
             <Texto>Observações</Texto>
-            <Icon name="chevron-right" size={25} color="#2D9CDB" />
+            <Icon name="chevron-right" size={20} color="#2D9CDB" />
           </Button>
-        </Inner>                
+        </Inner>         
+      </Scroll>
       
     </Container>
   );

@@ -15,15 +15,17 @@ export const Title = styled.Text`
   margin-bottom: 35px;
 `;
 
-export const SocialNetworks = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
+export const BodyHeard = styled.View`
+  padding: 24px;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const SocialButton = styled.TouchableOpacity`
   padding: 15px;
   width: 140px;
-  margin-vertical: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   background-color: #737373;
 `;
 
@@ -35,14 +37,15 @@ export const SocialText = styled.Text`
 `;
 
 export const ErroText = styled.Text`
-  font-size: 18px;
+  font-size: 14px;
   color: red;
 `;
 
 export const Input = styled.TextInput`
   height: 40px;
   padding: 10px;
-  margin-vertical: 12px;
+  margin-top: 12px;
+  margin-bottom: 12px;
   border-width: 1px;
   border-radius: 7px;
   border-color: #2d9cdb;
@@ -51,12 +54,14 @@ export const Input = styled.TextInput`
 
 export const Forguet = styled.TouchableOpacity`
   padding: 8px;
-  margin-vertical: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 export const Button = styled.TouchableOpacity`
   padding: 15px;
-  margin-vertical: 6px;
+  margin-top: 6px;
+  margin-bottom: 6px;
   border-width: 1px;
   border-radius: 7px;
   border-color: #2d9cdb;
@@ -75,4 +80,9 @@ export const LoadingText = styled.Text`
   color: #fff;
   font-style: italic;
   font-weight: 700;
+`;
+
+export const TinyLogo = styled.Image`
+  width: 50px;
+  height: 50px;
 `;

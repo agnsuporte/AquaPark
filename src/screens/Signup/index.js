@@ -57,10 +57,7 @@ const SignUp = props => {
     }
 
     if (signup.password !== signup.passwordConfirm) {
-      setErro({
-        err: true,
-        msg: 'As senhas devem ser iguais.',
-      });
+      setErro({err: true, msg: 'As senhas devem ser iguais.'});
       return false;
     }
 

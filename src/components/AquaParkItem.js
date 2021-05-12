@@ -43,19 +43,15 @@ const SeeProfileButtonText = styled.Text`
   color: #268596;
 `;
 
-
-
 const AquaParkItem = props => {
   const {name, address, avatar} = props.item;
-
-  // const navigation = useNavigation();
 
   const addr = text => {
     return text.length > 35 ? `${text.substring(0, 38 - 3)}...` : text;
   };
 
   return (
-    <ItemArea onPress={() => {props.nav(props.item)}}>
+    <ItemArea onPress={() => {props.ownerDetails(props.item)}}>
       <Avatar source={{uri: avatar}} />
       <InfoArea>
         <Name>{name}</Name>
