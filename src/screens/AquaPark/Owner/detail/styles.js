@@ -15,6 +15,12 @@ export const Inner = styled.View`
   padding: 5px 10px;
 `;
 
+export const Separetor = styled.View`
+  margin: 5px 0;
+  border: 0.5px;
+  border-color: #bbb;
+`;
+
 export const SectionHeard = styled.View`
   width: 96%;
   margin: 10px auto;
@@ -53,6 +59,40 @@ export const Name = styled.Text`
 `;
 
 export const Texto = styled.Text`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
+  padding: 5px 0;
+`;
+
+export const Item = styled.View`
+  width: 96%;
+  margin: 5px auto;
+  border-radius: 7px;
+  padding: 10px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const Label = styled.Text`
+  font-size: 14px;
+  font-weight: 700;
+  padding-left: 5px;
+`;
+
+export const LabelWithMargin = styled.Text`
+  font-size: 14px;
+  font-weight: 700;
+  padding-left: 5px;
+  margin-left: 10px;
+`;
+
+export const Input = styled.TextInput`
+  padding: 3px 15px;
+  font-size: 14px;
+  width: 100px;
+  text-align: right;
+  border-bottom-width: 1px;
+  border-radius: 7px;
+  border-color: #2d9cdb;
 `;

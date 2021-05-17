@@ -139,3 +139,9 @@ const AquaPark: () => Node = () => {
 };
 
 export default AquaPark;
+
+// settings.gradle
+// include ':@react-native-community_cameraroll'
+// project(':@react-native-community_cameraroll').projectDir = new File(rootProject.projectDir, '../node_modules/@react-native-community/cameraroll/android')
+// include ':react-native-camera'
+// project(':react-native-camera').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera/android')

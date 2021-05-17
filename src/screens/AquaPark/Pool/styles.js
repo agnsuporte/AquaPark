@@ -35,10 +35,21 @@ export const Label = styled.Text`
   padding-left: 15px;
 `;
 
+export const Description = styled.Text`
+  font-size: 14px;
+  padding-left: 15px;
+`;
+
+export const Text = styled.Text`
+  font-size: 14px;
+  font-weight: 700;
+`;
+
 export const Input = styled.TextInput`
   height: 30px;
   padding: 3px 15px;
   margin: 12px 0;
+  text-align: right;
   border-bottom-width: 1px;
   border-radius: 7px;
   border-color: #2d9cdb;

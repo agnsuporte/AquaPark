@@ -1017,11 +1017,6 @@
   dependencies:
     deep-assign "^3.0.0"
 
-"@react-native-community/cameraroll@^4.0.4":
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/@react-native-community/cameraroll/-/cameraroll-4.0.4.tgz#3e2567ce54e3985e8e0a51832dfa0e1c5317f75b"
-  integrity sha512-3SY96Xh1yQjV5M7dFisl5kQmrO/K09URarZwmTN801KEalOoo/opsd/e8Vu1dwSKe0NGCK7A2u0oJQpeNbWbnA==
-
 "@react-native-community/cli-debugger-ui@^5.0.1-alpha.1":
   version "5.0.1-alpha.1"
   resolved "https://registry.npmjs.org/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-5.0.1-alpha.1.tgz"
@@ -5954,7 +5949,7 @@ prompts@^2.0.1, prompts@^2.4.0:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.7.2.tgz"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -6025,13 +6020,6 @@ react-is@^16.13.0, react-is@^16.13.1, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
-
-react-native-camera@^3.43.6:
-  version "3.43.6"
-  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-3.43.6.tgz#94b99b19ea6e84e1a87c502274db207b0fa3b732"
-  integrity sha512-O6BDl0Rzsmbh4LF/4GqokIA6Q1tyhx0IlZuQ5wVKnKsGgZp/JAxF9W/2dsPjd5KyL8TgXEgpK0mqOjxd9lP5iw==
-  dependencies:
-    prop-types "^15.6.2"
 
 react-native-codegen@^0.0.6:
   version "0.0.6"

@@ -8,123 +8,97 @@ import {
   Content,
   Label,
   Item,
-  Input
+  Input,
+  Text,
+  Description
 } from './styles'
 
 const INIT_VALUE = {
-  volume: '',
-  waterSupplyTreatment: '',
-  structure: '',
-  typeUse: '',
+  alcalinidade: '',
+  ajusteAlc: ''
 };
 
-const TYPE_USE = [
-  {id: 0, label: "..." },
-  {id: 1, label: "Pública" },
-  {id: 2, label: "Coletivas" },
-  {id: 3, label: "De hospedaria" },
-  {id: 4, label: "Residências coletivas" },
-  {id: 5, label: "Residências privativas" },
-]
+const AquaParkPool = ({ route, navigation }) => {
 
-const WATER_SUPPLY_TREATMENT = [
-  {id: 0, label: "..."},
-  {id: 1, label: "Recirculação e tratamento"},
-  {id: 2, label: "Renovação cont. Com tratamento"},
-  {id: 3, label: "Renovação cont. Sem tratamento"},
-  {id: 4, label: "Renovação (encher e esvaziar)"},
-]
-
-const STRUCTURE = [
-  {id: 0, label: "..."},
-  {id: 1, label: "Concreto"},
-  {id: 2, label: "Alvenaria"},
-  {id: 3, label: "Fibra de Vidro"},
-  {id: 4, label: "Vinil"},
-]
-
-const windowWidth = Dimensions.get('window').width;
-
-const RenderPicker = props => {
-  const {data, selectedValue, onValueChange} = props;
-  return(
-    // <Picker
-    //   mode="dropdown"
-    //   iosIcon={<Icon name="arrow-down" />}
-    //   style={{ marginTop: 10,}}
-    //   placeholder=""
-    //   placeholderStyle={{ color: "#bfc6ea" }}
-    //   placeholderIconColor="#007aff"
-    //   selectedValue={selectedValue}
-    //   onValueChange={onValueChange}
-    // >
-    //   {
-    //     data.map(i => <Picker.Item key={i.id} label={i.label} value={i.id} />)
-    //   }
-    // </Picker>
-
-    <Picker
-      mode="dropdown"
-      selectedValue={selectedValue}
-      onValueChange={(itemValue) =>
-      onValueChange(itemValue)
-    }>
-      {
-        data.map(i => <Picker.Item key={i.id} label={i.label} value={i.id} />)
-      }
-    </Picker>
-
-  );
-}
-
-const AquaParkPool = props => {
-
+  const { owner_id, volume } = route.params;
   const [value, setValue] = useState(INIT_VALUE);
-  // const [waterSupplyTreatment, setWaterSupplyTreatment] = useState('');
-  // const [typeUse, setTypeUse] = useState('');
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: 'Alcalinidade',
+    });
+  }, [navigation]);
+
+  const checkAlcalidade = () => {
+
+    const alc = parseInt(value.alcalinidade) ;
+
+    if (!isNumber(alc)) {
+      return;
+    }
+
+    if (alc < 80 ) {
+      setValue({...value, ajusteAlc: elevarAlcalidade(alc)})
+    } else if (alc > 120) {
+      baixarAlcalidade()
+    }
+
+  }
+
+  function isNumber(val){
+    return typeof val === "number"
+  }
+
+  const elevarAlcalidade = (alc) => {
+    // =((ALC_FIRST-ALC_FOUND)*BASE)+ALC_BASE
+    const BASE = 1.7;
+    const ALC_FIRST = 70;
+    const ALC_BASE = 85;
+    
+    const ALC_FOUND = alc;
+
+    return ((ALC_FIRST-ALC_FOUND)*BASE)+ALC_BASE;
+  }
+
+  const baixarAlcalidade = () => {
+    
+  }
 
   return (
     <Container>
       <ScrollContent >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <Content>
-            
-            <Item>
-              <Label>Volume (m3)</Label>  
-              <Input 
-                value={value.volume}
-                onChangeText={vlr => setValue({...value, volume:vlr})}
-                placeholder="0.0"
-                keyboardType="numeric"              
-              />
-            </Item>     
 
-            <Item>
-              <Label>Quanto ao uso</Label>  
-              <RenderPicker 
-                data={TYPE_USE} 
-                selectedValue={value.typeUse} 
-                onValueChange={(vlr) => setValue({...value, typeUse:vlr})} 
-                />
-            </Item>
+          <Item>
+            <Label>Alcalinidade Encontrada:</Label>  
+            <Input 
+              autoFocus
+              maxLength={5}
+              onBlur={() => checkAlcalidade()}
+              value={value.alcalinidade}
+              onChangeText={vlr => setValue({...value, alcalinidade:vlr})}
+              keyboardType="numeric"              
+            />
+          </Item>  
 
-            <Item>
-              <Label>Suprimento e Tratamento da água</Label>  
-              <RenderPicker 
-                data={WATER_SUPPLY_TREATMENT} 
-                selectedValue={value.waterSupplyTreatment} 
-                onValueChange={(vlr) => setValue({...value, waterSupplyTreatment:vlr})} 
-                />
-            </Item>          
+          <Item>
+            <Label>Correção da alcalinidade</Label>  
+          </Item>          
+          <Item>
+            <Description>
+              É necessário aplicar <Text>{value.ajusteAlc}g/m3</Text> do ajustador da alcalinidade baixa.
+            </Description>
+          </Item>                       
 
-            <Item>
-              <Label>Tipo de estrutura</Label>  
-              <RenderPicker 
-                data={STRUCTURE} 
-                selectedValue={value.structure} 
-                onValueChange={(vlr) => setValue({...value, structure:vlr})} 
-                />
-            </Item>            
+          <Item>
+            <Label>Total</Label>  
+          </Item>          
+          <Item>
+            <Description>
+              {value.ajusteAlc}g <Text> x </Text> {volume}m3 <Text> = </Text> { parseFloat(volume) * parseInt(value.ajusteAlc) } 
+            </Description>
+          </Item> 
 
           </Content>
         </TouchableWithoutFeedback>        
