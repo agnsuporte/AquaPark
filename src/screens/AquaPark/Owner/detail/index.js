@@ -111,25 +111,17 @@ const AquaParkOwnerDetail = props => {
         </Inner>                       
 
         <Inner>
-          <Button onPress={() => props.navigation.navigate('Pool', {owner_id: owner.id, volume: value.volume})}>
-            <Texto>Classificação e tipo da piscina</Texto>
+          <Button onPress={() => props.navigation.navigate('Pool', {
+              owner_id: owner.id, 
+              volume: value.volume
+            })}
+          >
+            <Texto>Alcalinidade</Texto>
             <Icon name="chevron-right" size={16} color="#2D9CDB" />
           </Button>
         </Inner>
 
-        <Inner>
-          <Button>
-            <Texto>Visita (parâmetros físico-químicos)</Texto>
-            <Icon name="chevron-right" size={16} color="#2D9CDB" />
-          </Button>
-        </Inner>
-
-        <Inner>
-          <Button>
-            <Texto>Observações</Texto>
-            <Icon name="chevron-right" size={16} color="#2D9CDB" />
-          </Button>
-        </Inner>         
+               
       </Scroll>
       
     </Container>

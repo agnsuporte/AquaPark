@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import { TouchableWithoutFeedback, Keyboard, Dimensions} from "react-native";
-import {Picker} from '@react-native-picker/picker';
+import { TouchableWithoutFeedback, Keyboard, Alert, View} from "react-native";
 
 import {
   Container,
@@ -13,15 +12,34 @@ import {
   Description
 } from './styles'
 
-const INIT_VALUE = {
-  alcalinidade: '',
-  ajusteAlc: ''
-};
+const upAlkalinity = (value) => {
+  // =((ALC_FIRST-ALC_FOUND)*BASE)+ALC_BASE
+  const BASE = 1.7;
+  const ALC_FIRST = 70;
+  const ALC_BASE = 85;
+  const ALC_FOUND = value;
+  const result = ((ALC_FIRST-ALC_FOUND)*BASE)+ALC_BASE;
+
+  return parseFloat(result);
+}
+
+const downAlkalinity = value => {
+  // =((D1-130)*2)+20
+  const BASE = 2;
+  const ALC_FIRST = 130;
+  const ALC_BASE = 20;
+  const ALC_FOUND = value;
+  const result = ((ALC_FOUND-ALC_FIRST)*BASE)+ALC_BASE;
+
+  return parseFloat(result);
+}
 
 const AquaParkPool = ({ route, navigation }) => {
 
   const { owner_id, volume } = route.params;
-  const [value, setValue] = useState(INIT_VALUE);
+
+  const [alkalinityFound, setAlkalinityFound] = useState('');
+  const [adjustAlkalinity, setAdjustAlkalinity] = useState('');
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -29,40 +47,62 @@ const AquaParkPool = ({ route, navigation }) => {
     });
   }, [navigation]);
 
-  const checkAlcalidade = () => {
+  const checkAlcalidade = (value) => {
 
-    const alc = parseInt(value.alcalinidade) ;
-
-    if (!isNumber(alc)) {
-      return;
+    if (!value) {
+      setAdjustAlkalinity('');
+      return false;
     }
 
+    const alc = parseInt(value) ;
+    const ponto = value.indexOf('.');
+    const virgula = value.indexOf(',');
+
+    console.log(ponto);
+
+    if (isNaN(alc) || ponto > -1 || virgula > -1) {
+      Alert.alert(
+        'Aqua Park',
+        'Informe um valor inteiro.',
+      );
+      setAdjustAlkalinity('');
+      return false;
+    }
+  
     if (alc < 80 ) {
-      setValue({...value, ajusteAlc: elevarAlcalidade(alc)})
+      setAdjustAlkalinity(upAlkalinity(alc))
     } else if (alc > 120) {
-      baixarAlcalidade()
+      setAdjustAlkalinity(downAlkalinity(alc))
+    }
+  
+  }  
+
+  const RenderAlkalinity = () => {
+
+    let showTotal = '';
+    let typeAlkalinity;
+    const total = parseFloat(volume) * adjustAlkalinity;
+
+    if (alkalinityFound < 80 ) {
+      typeAlkalinity = "BAIXA";
+      showTotal = `${total}g`;
+    } else if (alkalinityFound > 120) {
+      typeAlkalinity = "ALTA";
+      showTotal = `${total}ml`;
     }
 
+    if(adjustAlkalinity && showTotal) {
+      return (
+        <Item>
+          <Label>Correção da alcalinidade {typeAlkalinity}</Label>  
+          <Description>
+            Aplique <Text style={{"fontSize":20}}>{showTotal}</Text>  para elevar a alcalinidade.
+          </Description>
+        </Item>     
+      );
+    }
   }
 
-  function isNumber(val){
-    return typeof val === "number"
-  }
-
-  const elevarAlcalidade = (alc) => {
-    // =((ALC_FIRST-ALC_FOUND)*BASE)+ALC_BASE
-    const BASE = 1.7;
-    const ALC_FIRST = 70;
-    const ALC_BASE = 85;
-    
-    const ALC_FOUND = alc;
-
-    return ((ALC_FIRST-ALC_FOUND)*BASE)+ALC_BASE;
-  }
-
-  const baixarAlcalidade = () => {
-    
-  }
 
   return (
     <Container>
@@ -75,30 +115,16 @@ const AquaParkPool = ({ route, navigation }) => {
             <Input 
               autoFocus
               maxLength={5}
-              onBlur={() => checkAlcalidade()}
-              value={value.alcalinidade}
-              onChangeText={vlr => setValue({...value, alcalinidade:vlr})}
+              onEndEditing={() => checkAlcalidade(alkalinityFound)}
+              value={alkalinityFound}
+              onChangeText={vlr => setAlkalinityFound(vlr)}
               keyboardType="numeric"              
             />
           </Item>  
 
-          <Item>
-            <Label>Correção da alcalinidade</Label>  
-          </Item>          
-          <Item>
-            <Description>
-              É necessário aplicar <Text>{value.ajusteAlc}g/m3</Text> do ajustador da alcalinidade baixa.
-            </Description>
-          </Item>                       
-
-          <Item>
-            <Label>Total</Label>  
-          </Item>          
-          <Item>
-            <Description>
-              {value.ajusteAlc}g <Text> x </Text> {volume}m3 <Text> = </Text> { parseFloat(volume) * parseInt(value.ajusteAlc) } 
-            </Description>
-          </Item> 
+          <View>
+            {RenderAlkalinity()}
+          </View>
 
           </Content>
         </TouchableWithoutFeedback>        
